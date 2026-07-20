@@ -40,24 +40,29 @@ export default function SignUpPage() {
 
   async function onSubmit(values: SignUpValues) {
     setIsLoading(true);
-    await authClient.signUp.email(
-      {
-        name: values.name,
-        email: values.email,
-        password: values.password,
-        callbackURL: "/dashboard",
-      },
-      {
-        onSuccess: () => {
-          sileo.success({ title: "Account created successfully" });
-          router.push("/dashboard");
+    try {
+      await authClient.signUp.email(
+        {
+          name: values.name,
+          email: values.email,
+          password: values.password,
+          callbackURL: "/dashboard",
         },
-        onError: (ctx) => {
-          sileo.error({ title: ctx.error.message });
-          setIsLoading(false);
+        {
+          onSuccess: () => {
+            sileo.success({ title: "Account created successfully" });
+            router.push("/dashboard");
+          },
+          onError: (ctx) => {
+            sileo.error({ title: ctx.error.message });
+          },
         },
-      },
-    );
+      );
+    } catch {
+      sileo.error({ title: "An unexpected error occurred" });
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   function handleSocialSignIn(provider: "google" | "github") {
@@ -78,12 +83,14 @@ export default function SignUpPage() {
           <div className="grid grid-cols-2 gap-3">
             <Button
               variant="outline"
+              disabled={isLoading}
               onClick={() => handleSocialSignIn("google")}
             >
               Google
             </Button>
             <Button
               variant="outline"
+              disabled={isLoading}
               onClick={() => handleSocialSignIn("github")}
             >
               GitHub
