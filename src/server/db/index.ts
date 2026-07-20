@@ -2,6 +2,7 @@ import { neon } from "@neondatabase/serverless";
 import { drizzle as drizzleNeon } from "drizzle-orm/neon-http";
 import { drizzle as drizzlePostgres } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
+import { env } from "@/lib/env";
 import * as schema from "./schema";
 
 const globalForDb = global as unknown as {
@@ -12,10 +13,7 @@ const globalForDb = global as unknown as {
 };
 
 function createDb() {
-  const url = process.env.DATABASE_URL;
-  if (!url) {
-    throw new Error("DATABASE_URL environment variable is not set");
-  }
+  const url = env.DATABASE_URL;
   const isNeon = url.includes("neon.tech");
 
   if (isNeon) {

@@ -64,7 +64,6 @@ pnpm db:studio    # Drizzle Studio
 src/
   app/              Pages and API routes
   components/       Reusable UI components
-  hooks/            Custom React hooks
   lib/              Shared utilities
   server/           Server-only code
     auth.ts         Better Auth config

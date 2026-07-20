@@ -23,7 +23,6 @@ Shared code goes to `src/components/` or `src/lib/`. If it's used in 2+ places, 
 src/
   app/            — Next.js App Router pages and routes
   components/     — Reusable UI components (shadcn + custom)
-  hooks/          — Custom React hooks
   lib/            — Shared utilities (utils, env, auth-client)
   server/         — Server-only code (auth, db, ai, actions)
 ```

@@ -3,7 +3,6 @@
 import { useRouter } from "next/navigation";
 
 export default function GlobalError({
-  error,
   reset,
 }: {
   error: Error & { digest?: string };
@@ -16,7 +15,7 @@ export default function GlobalError({
       <p className="text-6xl font-bold text-destructive">!</p>
       <h1 className="text-2xl font-semibold">Something went wrong</h1>
       <p className="max-w-md text-muted-foreground">
-        {error.message || "An unexpected error occurred."}
+        An unexpected error occurred. Please try again.
       </p>
       <div className="mt-4 flex gap-3">
         <button
