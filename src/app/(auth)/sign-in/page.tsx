@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
 import { authClient } from "@/lib/auth-client";
 
 const signInSchema = z.object({
@@ -57,6 +58,13 @@ export default function SignInPage() {
     );
   }
 
+  function handleSocialSignIn(provider: "google" | "github") {
+    authClient.signIn.social({
+      provider,
+      callbackURL: "/dashboard",
+    });
+  }
+
   return (
     <div className="flex flex-1 items-center justify-center px-6 py-24">
       <Card className="w-full max-w-md">
@@ -64,8 +72,28 @@ export default function SignInPage() {
           <CardTitle className="text-2xl">Welcome back</CardTitle>
           <CardDescription>Sign in to your account</CardDescription>
         </CardHeader>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
-          <CardContent className="space-y-4">
+        <CardContent className="space-y-4">
+          <div className="grid grid-cols-2 gap-3">
+            <Button
+              variant="outline"
+              onClick={() => handleSocialSignIn("google")}
+            >
+              Google
+            </Button>
+            <Button
+              variant="outline"
+              onClick={() => handleSocialSignIn("github")}
+            >
+              GitHub
+            </Button>
+          </div>
+          <div className="relative">
+            <Separator />
+            <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-card px-2 text-xs text-muted-foreground">
+              or
+            </span>
+          </div>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input
@@ -94,19 +122,19 @@ export default function SignInPage() {
                 </p>
               )}
             </div>
-          </CardContent>
-          <CardFooter className="flex flex-col gap-4">
             <Button type="submit" className="w-full" disabled={isLoading}>
               {isLoading ? "Signing in..." : "Sign In"}
             </Button>
-            <p className="text-sm text-muted-foreground">
-              Don&apos;t have an account?{" "}
-              <Link href="/sign-up" className="text-primary underline">
-                Sign up
-              </Link>
-            </p>
-          </CardFooter>
-        </form>
+          </form>
+        </CardContent>
+        <CardFooter className="justify-center">
+          <p className="text-sm text-muted-foreground">
+            Don&apos;t have an account?{" "}
+            <Link href="/sign-up" className="text-primary underline">
+              Sign up
+            </Link>
+          </p>
+        </CardFooter>
       </Card>
     </div>
   );
